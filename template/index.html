@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #8e1b1b, #4a0e0e);
+            position: relative;
+            animation: bloodAnimation 5s linear infinite alternate;
+        }
+
+        @keyframes bloodAnimation {
+            0% {
+                background: radial-gradient(circle at 50% 50%, #8e1b1b, #4a0e0e);
+            }
+            100% {
+                background: radial-gradient(circle at 50% 50%, #9f2b2b, #7c0e0e);
+            }
+        }
+
+        .upload-card {
+            background: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+            padding: 40px;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+            z-index: 1; /* Above the particles */
+            animation: slideIn 0.8s ease forwards; /* Advanced animation */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .upload-card h1 {
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+            color: #8e1b1b; /* Dark red accent for heading */
+        }
+
+        .file-upload {
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #8e1b1b; /* Dashed border */
+            border-radius: 15px;
+            padding: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #9f2b2b; /* Darker red on hover */
+        }
+
+        .file-upload input[type="file"] {
+            display: none; /* Hide default file input */
+        }
+
+        .upload-btn {
+            background: #8e1b1b; /* Button color */
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #9f2b2b; /* Darker red on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-btn i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+        /* Floating blood cells effect */
+        .blood-cell {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.7);
+            animation: bloodCellAnimation 4s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes bloodCellAnimation {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+            }
+        }
+
+        /* Blood cells styles */
+        .cell-1 { width: 30px; height: 30px; left: 10%; animation-duration: 3s; }
+        .cell-2 { width: 40px; height: 40px; left: 25%; animation-duration: 4s; }
+        .cell-3 { width: 25px; height: 25px; left: 40%; animation-duration: 5s; }
+        .cell-4 { width: 35px; height: 35px; left: 60%; animation-duration: 4s; }
+        .cell-5 { width: 20px; height: 20px; left: 80%; animation-duration: 3s; }
+    </style>
+</head>
+<body>
+    <div class="upload-card">
+        <h1><i class="fas fa-upload"></i> Upload Image</h1>
+        <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+            <div class="file-upload">
+                <label for="file">
+                    <i class="fas fa-file-upload"></i> Click to select or drag & drop your image here
+                </label>
+                <input type="file" id="file" name="file" accept="image/*" required>
+            </div>
+            <button type="submit" class="upload-btn"><i class="fas fa-check"></i> Predict</button>
+        </form>
+    </div>
+
+    <!-- Floating Blood Cells -->
+    <div class="blood-cell cell-1"></div>
+    <div class="blood-cell cell-2"></div>
+    <div class="blood-cell cell-3"></div>
+    <div class="blood-cell cell-4"></div>
+    <div class="blood-cell cell-5"></div>
+
+    <script>
+        // File label click event
+        document.querySelector('.file-upload label').addEventListener('click', () => {
+            document.getElementById('file').click();
+        });
+
+        // Update label on file selection
+        document.getElementById('file').addEventListener('change', function() {
+            const label = this.files.length > 0 ? this.files[0].name : 'Click to select or drag & drop your image here';
+            document.querySelector('.file-upload label').textContent = label;
+        });
+    </script>
+</body>
+</html>

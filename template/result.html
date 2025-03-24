@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #8e1b1b, #4a0e0e);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 400px;
+            z-index: 1; /* Above background effects */
+            position: relative;
+            animation: slideIn 0.5s ease forwards; /* Slide in animation */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #ffcc00; /* Gold color for the heading */
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        img {
+            width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 15px; /* Rounded corners */
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: #ffcc00; /* Gold button color */
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            color: #8e1b1b;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none; /* Remove underline from links */
+            display: inline-block; /* Align with button styles */
+            text-align: center; /* Center text in button */
+        }
+
+        .btn:hover {
+            background: #f1c40f; /* Lighter gold on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:focus {
+            outline: none; /* Remove outline on focus */
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.5); /* Outline effect */
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #d0d0d0; /* Light gray color */
+        }
+
+        /* Background floating blood cells */
+        .blood-cell {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.5);
+            animation: bloodCellAnimation 4s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes bloodCellAnimation {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+            }
+        }
+
+        /* Blood cells styles */
+        .cell-1 { width: 30px; height: 30px; left: 10%; animation-duration: 3s; }
+        .cell-2 { width: 40px; height: 40px; left: 25%; animation-duration: 4s; }
+        .cell-3 { width: 25px; height: 25px; left: 40%; animation-duration: 5s; }
+        .cell-4 { width: 35px; height: 35px; left: 60%; animation-duration: 4s; }
+        .cell-5 { width: 20px; height: 20px; left: 80%; animation-duration: 3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+
+        <!-- Image Container to show the uploaded image -->
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Image">
+        </div>
+
+        <p><strong>Class:</strong> {{ class_name }}</p>
+        <p><strong>Confidence Score:</strong> {{ confidence }}</p>
+        
+        <div class="button-container">
+            <a href="{{ url_for('index') }}" class="btn"><i class="fas fa-redo"></i> Try Another Image</a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Your Company Name</p>
+        </div>
+    </div>
+
+    <!-- Floating blood cells -->
+    <div class="blood-cell cell-1"></div>
+    <div class="blood-cell cell-2"></div>
+    <div class="blood-cell cell-3"></div>
+    <div class="blood-cell cell-4"></div>
+    <div class="blood-cell cell-5"></div>
+</body>
+</html>

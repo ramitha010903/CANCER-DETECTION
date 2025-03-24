@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Soft peach gradient */
+            position: relative;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; /* Behind the form */
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+            padding: 40px;
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 1; /* Above the particles */
+            animation: bounceIn 0.8s ease-in-out; /* Advanced animation */
+        }
+
+        .login-card h1 {
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+            color: #ff6b6b; /* Bright red accent for heading */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-control {
+            border: 2px solid #ff6b6b; /* Red border */
+            border-radius: 8px; /* Slightly rounded edges */
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #feb47b; /* Change border color on focus */
+            outline: none;
+            box-shadow: 0 0 5px rgba(254, 180, 123, 0.5); /* Soft shadow */
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff6b6b; /* Matching icon color */
+            font-size: 1.2rem; /* Increased icon size */
+        }
+
+        .btn-primary {
+            background-color: #ff6b6b; /* Bright button color */
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff4757; /* Darker red on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            color: #333; /* Dark color for paragraph */
+        }
+
+        a {
+            color: #ff6b6b;
+            text-decoration: none; /* Remove underline */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Bounce-in animation */
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Particle animation */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 5s ease-in-out infinite;
+            z-index: -1; /* Behind the card */
+            pointer-events: none; /* Prevent interactions */
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <!-- Create particles with JavaScript -->
+    </div>
+
+    <div class="login-card">
+        <h1><i class="fas fa-user-circle"></i> Login</h1>
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <p class="text-center">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Particle generation
+        const particlesContainer = document.querySelector('.particles');
+        const numParticles = 50; // Increased number of particles
+
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 20 + 5; // Random size between 5px and 25px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDuration = `${Math.random() * 4 + 3}s`; // Random animation duration
+            particle.style.animationDelay = `${Math.random() * 5}s`; // Random delay for staggered effect
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
